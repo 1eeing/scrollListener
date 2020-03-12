@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/1eeing/scrollListener/issues"
   },
-  "homepage": "https://github.com/1eeing/scrollListener#readme"
+  "homepage": "https://github.com/1eeing/scrollListener#readme",
+  "dependencies": {
+    "react": "^16.13.0"
+  },
+  "devDependencies": {
+    "typescript": "^3.8.3"
+  }
 }
