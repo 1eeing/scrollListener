@@ -71,11 +71,13 @@ The id of the element you want to listen.
 
 ### actions
 type: ((id: string, offsetTop: number) => void)[]
-The action of the element you want to listen. Fired when the element scrolls to the top of the screen by default. One-to-one correspondence with postions.
+The action of the element you want to listen. Triggerd when the element scrolls to the top of the screen by default. One-to-one correspondence with postions.
+
+> when target is passed in, the action will be triggerd when the element scrolls to the top of the target.
 
 ### offset?
 type: number
-Offset from the top of the screen.
+Offset from the top of the screen or target.
 
 ### target?
 type: string
