@@ -1,5 +1,5 @@
 {
-  "name": "scrolllistener",
+  "name": "@1eeing/scroll-listener",
   "version": "1.0.0",
   "description": "Do everything you want on scroll event.",
   "main": "dist/index.js",
@@ -25,6 +25,9 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/1eeing/scrollListener/issues"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "homepage": "https://github.com/1eeing/scrollListener#readme",
   "dependencies": {
