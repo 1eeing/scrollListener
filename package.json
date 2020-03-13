@@ -1,6 +1,6 @@
 {
   "name": "@1eeing/scroll-listener",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Do everything you want on scroll event.",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -10,7 +10,8 @@
     "build": "rollup -c"
   },
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "keywords": [
     "scrollEvent",
