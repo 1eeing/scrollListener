@@ -4,9 +4,10 @@ export interface Marker {
 }
 
 export interface Opt {
+  delayType?: 'throttle' | 'debounce'
   offset?: number
   target?: string
-  interval?: number
+  delay?: number
   positions: string[]
   actions: ((id: string, offsetTop: number) => void)[]
 }
@@ -15,11 +16,14 @@ export interface ScorllListenerProps extends Opt {
   isWindow: boolean
   eventTarget: Window | HTMLElement
 
-  _init: (opt: Opt) => void
+  init: (opt: Opt) => void
+
   _computeOffsetTop: (elm: HTMLElement) => number
   _computeMarkers: () => Marker[]
   _tick: (e: any) => void
+}
 
+export interface ScorllListenerInsProps extends ScorllListenerProps {
   start: () => void
   stop: () => void
 }

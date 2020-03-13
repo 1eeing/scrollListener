@@ -1,22 +1,32 @@
-import { throttle } from './helper';
-import { Opt, ScorllListenerProps } from './types';
+import { throttle, debounce } from './helper';
+import { Opt, ScorllListenerProps, ScorllListenerInsProps } from './types';
+
+const funcMap = {
+  throttle,
+  debounce,
+}
 
 const ScorllListener: ScorllListenerProps = {
   isWindow: void 0,
   eventTarget: void 0,
+  delayType: void 0,
   offset: void 0,
   target: void 0,
-  interval: void 0,
+  delay: void 0,
   positions: void 0,
   actions: void 0,
 
-  _init(opt) {
+  init(opt) {
+    this.delayType = opt.delayType;
     this.offset = opt.offset || 0;
     this.target = opt.target;
     this.positions = opt.positions;
     this.actions = opt.actions;
-    this.interval = opt.interval || 500;
-    this._tick = throttle(this._tick, this.interval);
+    this.delay = opt.delay || 500;
+
+    if (this.delayType) {
+      this._tick = funcMap[this.delayType](this._tick, this.delay);
+    }
     if (!this.target) {
       this.eventTarget = window;
       this.isWindow = true;
@@ -52,20 +62,22 @@ const ScorllListener: ScorllListenerProps = {
       action && action(item.id, item.position);
     });
   },
-
-  start() {
-    this.eventTarget.addEventListener('scroll', this._tick);
-  },
-
-  stop() {
-    this.eventTarget.removeEventListener('scroll', this._tick);
-  },
 }
+
+const ScorllListenerIns: ScorllListenerInsProps = Object.create(ScorllListener);
+
+ScorllListenerIns.start = function () {
+  this.eventTarget.addEventListener('scroll', this._tick);
+}
+
+ScorllListenerIns.stop = function () {
+  this.eventTarget.removeEventListener('scroll', this._tick);
+}
+
+export { ScorllListenerIns };
 
 export const createListener = (opt: Opt) => {
-  const ins = Object.create(ScorllListener);
-  ins._init(opt);
+  const ins = Object.create(ScorllListenerIns);
+  ins.init(opt);
   return ins;
 }
-
-export default ScorllListener;

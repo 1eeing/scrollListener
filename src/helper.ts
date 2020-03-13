@@ -15,3 +15,13 @@ export const throttle = (fn: (args: any) => void, delay: number) => {
       }
   }
 }
+
+export const debounce = (fn: (args: any) => void, delay: number) => {
+  let timer;
+  return function(...args) {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+          fn.apply(this, args);
+      }, delay)
+  }
+};
