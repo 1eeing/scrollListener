@@ -66,27 +66,27 @@ export default App;
 
 ## Options
 ### positions
-type: string[]
+type: string[] </br>
 The id of the element you want to listen.
 
 ### actions
-type: ((id: string, offsetTop: number) => void)[]
+type: ((id: string, offsetTop: number) => void)[] </br>
 The action of the element you want to listen. Triggerd when the element scrolls to the top of the screen by default. One-to-one correspondence with postions.
 
 > when target is passed in, the action will be triggerd when the element scrolls to the top of the target.
 
 ### offset?
-type: number
+type: number </br>
 Offset from the top of the screen or target.
 
 ### target?
-type: string
+type: string </br>
 The target element'id you want to listen. Default the target is window.
 
 ### delayType?
-type: 'throttle' | 'debounce'
+type: 'throttle' | 'debounce' </br>
 Delay your action function. Default is empty.
 
 ### delay?
-type: number
+type: number </br>
 Only worked when delayType is not empty. Default is 500 ms.
