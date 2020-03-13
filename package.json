@@ -9,8 +9,7 @@
     "build": "npx tsc"
   },
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "keywords": [
     "scrollEvent",
