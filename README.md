@@ -53,11 +53,11 @@ const App = () => {
   }, [])
 
   return (
-	<div>
-		<div id='main'>
-      Hello world.
-		</div>
-  </div>
+    <div>
+      <div id='main'>
+        Hello world.
+      </div>
+    </div>
   )
 }
 
