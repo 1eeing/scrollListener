@@ -1,6 +1,6 @@
 {
   "name": "@1eeing/scroll-listener",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Do everything you want on scroll event.",
   "main": "dist/index.js",
   "module": "dist/index.js",
