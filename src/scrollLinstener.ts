@@ -40,7 +40,7 @@ const ScorllListener: ScorllListenerProps = {
 
   _computeOffsetTop(elem) {
     const curTop = elem.getBoundingClientRect().top;
-    const scrollTop = this.isWindow ? document.documentElement.scrollTop : this.eventTarget.scrollTop;
+    const scrollTop = this.isWindow ? document.documentElement.scrollTop : (this.eventTarget as HTMLElement).scrollTop;
     return curTop + scrollTop;
   },
 
@@ -55,7 +55,7 @@ const ScorllListener: ScorllListenerProps = {
   },
 
   _tick(e) {
-    const curTop = this.isWindow ? document.documentElement.scrollTop : (e.target.scrollTop + this.eventTarget.getBoundingClientRect().top);
+    const curTop = this.isWindow ? document.documentElement.scrollTop : (e.target.scrollTop + (this.eventTarget as HTMLElement).getBoundingClientRect().top);
     const markers = this._computeMarkers();
     markers.filter(item => curTop >= item.position).forEach((item, idx) => {
       const action = this.actions[idx];
@@ -76,7 +76,7 @@ ScorllListenerIns.stop = function () {
 
 export { ScorllListenerIns };
 
-export const createListener = (opt: Opt) => {
+export const createListener = (opt: Opt): ScorllListenerInsProps => {
   const ins = Object.create(ScorllListenerIns);
   ins.init(opt);
   return ins;
