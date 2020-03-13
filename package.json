@@ -1,6 +1,6 @@
 {
   "name": "@1eeing/scroll-listener",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Do everything you want on scroll event.",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -30,9 +30,6 @@
     "access": "public"
   },
   "homepage": "https://github.com/1eeing/scrollListener#readme",
-  "dependencies": {
-    "react": "^16.13.0"
-  },
   "devDependencies": {
     "@rollup/plugin-typescript": "^4.0.0",
     "@types/react": "^16.9.23",
@@ -40,7 +37,4 @@
     "tslib": "^1.11.1",
     "typescript": "^3.8.3"
   },
-  "peerDependencies": {
-    "react": "^16.8.3"
-  }
 }
