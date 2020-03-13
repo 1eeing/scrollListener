@@ -39,5 +39,8 @@
     "rollup": "^2.0.6",
     "tslib": "^1.11.1",
     "typescript": "^3.8.3"
+  },
+  "peerDependencies": {
+    "react": "^16.8.3"
   }
 }

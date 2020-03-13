@@ -67,11 +67,11 @@ const ScorllListener: ScorllListenerProps = {
 const ScorllListenerIns: ScorllListenerInsProps = Object.create(ScorllListener);
 
 ScorllListenerIns.start = function () {
-  this.eventTarget.addEventListener('scroll', this._tick);
+  this.eventTarget.addEventListener('scroll', this._tick.bind(this));
 }
 
 ScorllListenerIns.stop = function () {
-  this.eventTarget.removeEventListener('scroll', this._tick);
+  this.eventTarget.removeEventListener('scroll', this._tick.bind(this));
 }
 
 export { ScorllListenerIns };
