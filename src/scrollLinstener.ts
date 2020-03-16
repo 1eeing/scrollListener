@@ -1,5 +1,5 @@
 import { throttle, debounce, requestIdleCallbackTrigger } from './helper';
-import { Opt, ScorllListenerProps, ScorllListenerInsProps } from './types';
+import { Opt, ScorllListenerProps, ScorllListenerInsProps, Marker } from './types';
 
 const funcMap = {
   throttle,
@@ -9,22 +9,25 @@ const funcMap = {
 const ScorllListener: ScorllListenerProps = {
   isWindow: void 0,
   eventTarget: void 0,
+  hasTriggerd: {},
+  triggerType: void 0,
   delayType: void 0,
+  delay: void 0,
   offset: void 0,
   target: void 0,
-  delay: void 0,
-  requestIdleCallback: void 0,
+  needRequestIdleCallback: void 0,
   positions: void 0,
   actions: void 0,
 
   init(opt) {
+    this.triggerType = opt.triggerType || 'once';
     this.delayType = opt.delayType;
+    this.delay = opt.delay || 500;
     this.offset = opt.offset || 0;
     this.target = opt.target;
     this.positions = opt.positions;
     this.actions = opt.actions;
-    this.delay = opt.delay || 500;
-    this.requestIdleCallback = opt.requestIdleCallback || false;
+    this.needRequestIdleCallback = opt.needRequestIdleCallback || false;
 
     if (this.delayType) {
       const bindTick = funcMap[this.delayType];
@@ -44,6 +47,20 @@ const ScorllListener: ScorllListenerProps = {
     }
   },
 
+  destroy() {
+    this.isWindow = void 0;
+    this.eventTarget = void 0;
+    this.hasTriggerd = {};
+    this.triggerType = void 0;
+    this.delayType = void 0;
+    this.delay = void 0;
+    this.offset = void 0;
+    this.target = void 0;
+    this.needRequestIdleCallback = void 0;
+    this.positions = void 0;
+    this.actions = void 0;
+  },
+
   _computeOffsetTop(elem) {
     const curTop = elem.getBoundingClientRect().top;
     const scrollTop = this.isWindow ? document.documentElement.scrollTop : (this.eventTarget as HTMLElement).scrollTop;
@@ -56,22 +73,46 @@ const ScorllListener: ScorllListenerProps = {
       return {
         position: this._computeOffsetTop(elem),
         e: elem,
+        id: item,
       }
     })
+  },
+
+  _filterIsMatch(item: Marker, idx: number) {
+    return !!this.actions[idx]
+  },
+
+  _filterIsNotOnce(item: Marker, idx: number) {
+    return this.triggerType !== 'once' || !this.hasTriggerd[item.id];
+  },
+
+  _filterIsVisible(curTop: number, item: Marker) {
+    if (this.triggerType === 'appearing') {
+      return curTop >= item.position && curTop <= (item.position + item.e.scrollHeight);
+    }
+    return curTop >= item.position;
+  },
+
+  _triggerAction(item: Marker, idx: number) {
+    const action = () => {
+      this.actions[idx](item.e, item.position);
+      if (this.triggerType === 'once') {
+        this.hasTriggerd[item.id] = true;
+      }
+    }
+    this.needRequestIdleCallback ?
+      requestIdleCallbackTrigger(action) :
+      action();
   },
 
   _tick(e) {
     const curTop = this.isWindow ? document.documentElement.scrollTop : (e.target.scrollTop + (this.eventTarget as HTMLElement).getBoundingClientRect().top);
     const markers = this._computeMarkers();
-    markers.filter(item => curTop >= item.position).forEach((item, idx) => {
-      const action = this.actions[idx];
-      if (!action) {
-        return;
-      }
-      this.requestIdleCallback ?
-        requestIdleCallbackTrigger(() => { action(item.e, item.position) }) :
-        action(item.e, item.position);
-    });
+    markers
+      .filter(this._filterIsMatch)
+      .filter(this._filterIsNotOnce)
+      .filter(this._filterIsVisible.bind(this, curTop))
+      .forEach(this._triggerAction);
   },
 }
 
@@ -83,6 +124,7 @@ ScorllListenerIns.start = function () {
 
 ScorllListenerIns.stop = function () {
   this.eventTarget.removeEventListener('scroll', this._tick.bind(this));
+  this.destroy();
 }
 
 export { ScorllListenerIns };

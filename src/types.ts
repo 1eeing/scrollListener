@@ -20,14 +20,16 @@ declare global {
 export interface Marker {
   position: number
   e: HTMLElement
+  id: string
 }
 
 export interface Opt {
+  triggerType?: 'appeard' | 'appearing' | 'once'
   delayType?: 'throttle' | 'debounce'
+  delay?: number
   offset?: number
   target?: string
-  delay?: number
-  requestIdleCallback?: boolean
+  needRequestIdleCallback?: boolean
   positions: string[]
   actions: ((e: HTMLElement, position: number) => void)[]
 }
@@ -35,11 +37,17 @@ export interface Opt {
 export interface ScorllListenerProps extends Opt {
   isWindow: boolean
   eventTarget: Window | HTMLElement
+  hasTriggerd: {[key: string]: boolean}
 
   init: (opt: Opt) => void
+  destroy: () => void
 
   _computeOffsetTop: (elm: HTMLElement) => number
   _computeMarkers: () => Marker[]
+  _filterIsMatch: (item: Marker, idx: number) => boolean
+  _filterIsNotOnce: (item: Marker, idx: number) => boolean
+  _filterIsVisible: (curTop: number, item: Marker) => boolean
+  _triggerAction: (item: Marker, idx: number) => void
   _tick: (e: any) => void
 }
 

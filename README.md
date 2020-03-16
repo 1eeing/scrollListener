@@ -77,13 +77,9 @@ The action of the element you want to listen. Triggerd when the element scrolls 
 
 > when target is passed in, the action will be triggerd when the element scrolls to the top of the target.
 
-### offset?
-type: `number` </br></br>
-Offset from the top of the screen or target.
-
-### target?
-type: `string` </br></br>
-The target element'id you want to listen. Default the target is window.
+### triggerType?
+type: `'appeard' | 'appearing' | 'once'` </br></br>
+Control when to trigger action. Default is once.
 
 ### delayType?
 type: `'throttle' | 'debounce'` </br></br>
@@ -93,10 +89,17 @@ Delay your action function. Default is undefined.
 type: `number` </br></br>
 Only worked when delayType is passed in. Default is 500 ms.
 
+### offset?
+type: `number` </br></br>
+Offset from the top of the screen or target.
+
+### target?
+type: `string` </br></br>
+The target element'id you want to listen. Default the target is window.
+
 ### requestIdleCallback?
 type: `boolean` </br></br>
-Use requestIdleCallback to trigger your action. See detail https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestIdleCallback[https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestIdleCallback]. Default is false.
+Use requestIdleCallback to trigger action. See detail https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestIdleCallback[https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestIdleCallback]. Default is false.
 
 
 ## TODO
-- [ ] trigger actions' time and times
