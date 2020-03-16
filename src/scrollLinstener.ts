@@ -1,4 +1,4 @@
-import { throttle, debounce } from './helper';
+import { throttle, debounce, requestIdleCallbackTrigger } from './helper';
 import { Opt, ScorllListenerProps, ScorllListenerInsProps } from './types';
 
 const funcMap = {
@@ -13,6 +13,7 @@ const ScorllListener: ScorllListenerProps = {
   offset: void 0,
   target: void 0,
   delay: void 0,
+  requestIdleCallback: void 0,
   positions: void 0,
   actions: void 0,
 
@@ -23,9 +24,14 @@ const ScorllListener: ScorllListenerProps = {
     this.positions = opt.positions;
     this.actions = opt.actions;
     this.delay = opt.delay || 500;
+    this.requestIdleCallback = opt.requestIdleCallback || false;
 
     if (this.delayType) {
-      this._tick = funcMap[this.delayType](this._tick, this.delay);
+      const bindTick = funcMap[this.delayType];
+      if (!bindTick) {
+        throw Error('The delayType is not supposed');
+      }
+      this._tick = bindTick(this._tick, this.delay);
     }
     if (!this.target) {
       this.eventTarget = window;
@@ -49,7 +55,7 @@ const ScorllListener: ScorllListenerProps = {
       const elem = document.getElementById(item);
       return {
         position: this._computeOffsetTop(elem),
-        id: item
+        e: elem,
       }
     })
   },
@@ -59,7 +65,12 @@ const ScorllListener: ScorllListenerProps = {
     const markers = this._computeMarkers();
     markers.filter(item => curTop >= item.position).forEach((item, idx) => {
       const action = this.actions[idx];
-      action && action(item.id, item.position);
+      if (!action) {
+        return;
+      }
+      this.requestIdleCallback ?
+        requestIdleCallbackTrigger(() => { action(item.e, item.position) }) :
+        action(item.e, item.position);
     });
   },
 }

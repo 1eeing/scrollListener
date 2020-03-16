@@ -1,4 +1,4 @@
-export const throttle = (fn: (args: any) => void, delay: number) => {
+export const throttle = (fn: (...args: any) => void, delay: number) => {
   let last = 0;
   let timer;
   return function(this: any, ...args) {
@@ -16,7 +16,7 @@ export const throttle = (fn: (args: any) => void, delay: number) => {
   }
 }
 
-export const debounce = (fn: (args: any) => void, delay: number) => {
+export const debounce = (fn: (...args: any) => void, delay: number) => {
   let timer;
   return function(this: any, ...args) {
       clearTimeout(timer);
@@ -25,3 +25,10 @@ export const debounce = (fn: (args: any) => void, delay: number) => {
       }, delay)
   }
 };
+
+export const requestIdleCallbackTrigger = (fn: (...args: any) => any) => {
+  if (window.requestIdleCallback) {
+    window.requestIdleCallback(fn)
+  }
+  fn();
+}

@@ -7,6 +7,7 @@ npm install --save @1eeing/scroll-listener
 
 ## Usage
 ```js
+// js
 import { createListener } from '@1eeing/scroll-listener';
 
 // When domContentLoaded has triggered.
@@ -26,6 +27,7 @@ listener.stop();
 ```
 
 ```html
+<!-- html -->
 <body>
   <div id='main'></div>
 </body>
@@ -85,8 +87,12 @@ The target element'id you want to listen. Default the target is window.
 
 ### delayType?
 type: `'throttle' | 'debounce'` </br></br>
-Delay your action function. Default is empty.
+Delay your action function. Default is undefined.
 
 ### delay?
 type: `number` </br></br>
-Only worked when delayType is not empty. Default is 500 ms.
+Only worked when delayType is passed in. Default is 500 ms.
+
+### requestIdleCallback?
+type: `boolean` </br></br>
+Use requestIdleCallback to trigger your action. See detail https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestIdleCallback[https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestIdleCallback]. Default is false.
