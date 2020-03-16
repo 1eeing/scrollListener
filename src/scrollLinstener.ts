@@ -109,10 +109,10 @@ const ScorllListener: ScorllListenerProps = {
     const curTop = this.isWindow ? document.documentElement.scrollTop : (e.target.scrollTop + (this.eventTarget as HTMLElement).getBoundingClientRect().top);
     const markers = this._computeMarkers();
     markers
-      .filter(this._filterIsMatch)
-      .filter(this._filterIsNotOnce)
+      .filter(this._filterIsMatch.bind(this))
+      .filter(this._filterIsNotOnce.bind(this))
       .filter(this._filterIsVisible.bind(this, curTop))
-      .forEach(this._triggerAction);
+      .forEach(this._triggerAction.bind(this));
   },
 }
 
