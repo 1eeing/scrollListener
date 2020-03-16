@@ -96,3 +96,7 @@ Only worked when delayType is passed in. Default is 500 ms.
 ### requestIdleCallback?
 type: `boolean` </br></br>
 Use requestIdleCallback to trigger your action. See detail https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestIdleCallback[https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestIdleCallback]. Default is false.
+
+
+## TODO
+- [ ] trigger actions' time and times
