@@ -1,4 +1,5 @@
 # scrollListener
+Do everything you want on scroll event. Such as `lazy load` , `upload data`.
 
 ## Installation
 ```bash
