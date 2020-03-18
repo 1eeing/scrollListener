@@ -98,7 +98,7 @@ Offset from the top of the screen or target.
 type: `string` </br></br>
 The target element'id you want to listen. Default the target is window.
 
-### requestIdleCallback?
+### needRequestIdleCallback?
 type: `boolean` </br></br>
 Use requestIdleCallback to trigger action. See detail https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestIdleCallback[https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestIdleCallback]. Default is false.
 
