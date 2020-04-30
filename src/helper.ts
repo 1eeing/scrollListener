@@ -29,6 +29,7 @@ export const debounce = (fn: (...args: any) => void, delay: number) => {
 export const requestIdleCallbackTrigger = (fn: (...args: any) => any) => {
   if (window.requestIdleCallback) {
     window.requestIdleCallback(fn)
+  } else {
+    fn();
   }
-  fn();
 }
