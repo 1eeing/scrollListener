@@ -21,6 +21,7 @@ export interface Marker {
   position: number
   e: HTMLElement
   id: string
+  disabled: boolean
 }
 
 export interface Opt {
@@ -44,9 +45,9 @@ export interface ScorllListenerProps extends Opt {
 
   _computeOffsetTop: (elm: HTMLElement) => number
   _computeMarkers: () => Marker[]
-  _filterIsMatch: (item: Marker, idx: number) => boolean
-  _filterIsNotOnce: (item: Marker, idx: number) => boolean
-  _filterIsVisible: (curTop: number, item: Marker) => boolean
+  _filterIsMatch: (item: Marker, idx: number) => Marker
+  _filterIsNotOnce: (item: Marker, idx: number) => Marker
+  _filterIsVisible: (curTop: number, item: Marker) => Marker
   _triggerAction: (item: Marker, idx: number) => void
   _tick: (e: any) => void
 }

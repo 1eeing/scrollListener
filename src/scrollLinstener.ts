@@ -74,26 +74,35 @@ const ScorllListener: ScorllListenerProps = {
         position: this._computeOffsetTop(elem),
         e: elem,
         id: item,
+        disabled: false,
       }
     })
   },
 
   _filterIsMatch(item: Marker, idx: number) {
-    return !!this.actions[idx]
+    return !!this.actions[idx] ? item : { ...item, disabled: true };
   },
 
   _filterIsNotOnce(item: Marker, idx: number) {
-    return this.triggerType !== 'once' || !this.hasTriggerd[item.id];
+    return this.triggerType === 'once' && this.hasTriggerd[item.id] ?
+      { ...item, disabled: true } : item;
   },
 
   _filterIsVisible(curTop: number, item: Marker) {
-    if (this.triggerType === 'appearing') {
-      return curTop >= item.position && curTop <= (item.position + item.e.scrollHeight);
+    if (
+      this.triggerType === 'appearing' &&
+      curTop >= item.position && curTop <= (item.position + item.e.scrollHeight) ||
+      curTop >= item.position
+    ) {
+      return item
     }
-    return curTop >= item.position;
+    return { ...item, disabled: true };
   },
 
   _triggerAction(item: Marker, idx: number) {
+    if (item.disabled) {
+      return;
+    }
     const action = () => {
       this.actions[idx](item.e, item.position);
       if (this.triggerType === 'once') {
@@ -109,9 +118,9 @@ const ScorllListener: ScorllListenerProps = {
     const curTop = this.isWindow ? document.documentElement.scrollTop : (e.target.scrollTop + (this.eventTarget as HTMLElement).getBoundingClientRect().top);
     const markers = this._computeMarkers();
     markers
-      .filter(this._filterIsMatch.bind(this))
-      .filter(this._filterIsNotOnce.bind(this))
-      .filter(this._filterIsVisible.bind(this, curTop))
+      .map(this._filterIsMatch.bind(this))
+      .map(this._filterIsNotOnce.bind(this))
+      .map(this._filterIsVisible.bind(this, curTop))
       .forEach(this._triggerAction.bind(this));
   },
 }
